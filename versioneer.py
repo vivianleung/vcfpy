@@ -346,7 +346,10 @@ def get_config_from_root(root):
     # parser = configparser.SafeConfigParser()
     parser = configparser.ConfigParser(interpolation=None)
     with open(setup_cfg, "r") as f:
-        parser.read_file(f)
+        try:
+            parser.read_file(f)
+        except AttributeError:
+            parser.readfp(f)
     VCS = parser.get("versioneer", "VCS")  # mandatory
 
     def get(parser, name):
